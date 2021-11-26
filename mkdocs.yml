@@ -1,0 +1,48 @@
+site_name: River
+repo_name: HawDevelopment/River
+site_url: https://HawDevelopment.github.io/River
+repo_url: https://github.com/HawDevelopment/River
+
+theme:
+    name: material
+    features:
+        - navigation.tabs
+    # logo: assets/logo-dark.svg
+    # favicon: assets/logo-dark.svg
+    palette:
+        - media: "(prefers-color-scheme: dark)"
+          scheme: slate
+          toggle:
+              icon: material/weather-night
+              name: Switch to light mode
+        - media: "(prefers-color-scheme: light)"
+          scheme: default
+          toggle:
+              icon: material/weather-sunny
+              name: Switch to dark mode
+    font:
+        text: Inter
+        code: JetBrains Mono
+    icon:
+        repo: fontawesome/brands/github
+
+nav:
+    - Home: index.md
+    - Getting Started:
+          - Getting Started: GetStarted/index.md
+          - Data: GetStarted/Data.md
+          - Systems: GetStarted/Systems.md
+          - Example: GetStarted/Example.md
+    - Api: Api.md
+
+markdown_extensions:
+    - admonition
+    - attr_list
+    - meta
+    - pymdownx.highlight
+    - pymdownx.superfences
+    - pymdownx.inlinehilite
+    - pymdownx.details
+    - pymdownx.betterem
+    - toc:
+          permalink: false
