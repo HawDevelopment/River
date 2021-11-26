@@ -9,19 +9,6 @@ local Types = require(script.Types)
 local Pools = require(script.Pools) -- Used in types
 local Scheduler = require(script.Internal.Scheduler) -- Used in types
 
-type TypesModule = {
-    Query: Types.Query,
-    System: Types.System,
-    Component: Types.Component,
-    Entity: Types.Entity,
-    EntityIdentifier: Types.EntityIdentifier,
-    Tag: Types.Tag,
-    Type: Types.Type,
-    World: Types.World,
-    Pool: Types.Pool,
-    Bindable: Types.Bindable,
-    Queryable: Types.Queryable,
-}
 
 export type River = {
     Entity: (tab: { [string | number]: Types.Queryable }) -> Types.Entity,
@@ -32,7 +19,7 @@ export type River = {
     Type: (combination: string) -> Types.Type,
     World: () -> Types.World,
     Pools: Pools.Pools,
-    Types: TypesModule,
+    Types: ModuleScript,
     Internal: {
         Scheduler: Scheduler.Scheduler,
     }
@@ -46,7 +33,7 @@ return {
     Query = require(ECS.Query),
     Tag = require(ECS.Tag),
     Type = require(ECS.Type),
-    Types = { },
+    Types = script.Types,
     World = require(ECS.World),
     Pools = Pools,
     
