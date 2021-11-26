@@ -99,7 +99,6 @@ function QueryObject(resource: Types.Queryable, key: any?): any
 end
 
 function Scheduler:Handle(operation: Operation): { [any]: any } | nil
-    debug.profilebegin("Scheduler.Handle")
     if operation.name == "Query" then
         -- We want to get all the resources.
         -- And then insert them into a table or pool.
@@ -107,7 +106,6 @@ function Scheduler:Handle(operation: Operation): { [any]: any } | nil
         -- If the query is alrady cache, then we should return the cached value.
         local operation = operation :: QueryOperation 
         if Cache.Query[operation.id] then
-            debug.profileend()
             return Cache.Query[operation.id]
         end
         
@@ -159,24 +157,19 @@ function Scheduler:Handle(operation: Operation): { [any]: any } | nil
     elseif operation.name == "Call" then
         -- Update queries.
         local operation = operation :: CallOperation
-        debug.profilebegin("Scheduler.Call")
         local args
         if Cache.Args[operation.object.id] then
             args = Cache.Args[operation.object.id]
-            args[#args] = operation.dt
         else
             args = {}
-            args[#operation.object.queries + 1] = operation.dt
             for _, value in ipairs(operation.object.queries) do
-                table.insert(args, 1, value:__update())
+                table.insert(args, value:__update())
             end
             Cache.Args[operation.object.id] = args
         end
         -- Call the system with the queries.
-        task.spawn(operation.object.func, unpack(args))
-        debug.profileend()
+        task.spawn(operation.object.func, unpack(args), operation.dt)
     end
-    debug.profileend()
 end
 
 function Scheduler:__update(dt: number): nil
