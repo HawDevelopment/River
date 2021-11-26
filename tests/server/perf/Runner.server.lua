@@ -17,6 +17,7 @@ print("Running benchmarks...")
 			local res = {}
 
 			for index, perf in ipairs(module) do
+                task.wait(1)
 				local state
 				if perf.Pre ~= nil then
 					state = perf.Pre()
