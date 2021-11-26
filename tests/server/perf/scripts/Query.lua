@@ -60,4 +60,32 @@ return {
             table.clear(Pools.Query.data)
         end
     },
+    {
+        Name = "Stress Query Get",
+        Calls = 1000000,
+        Pre = function()
+            table.clear(Pools.Query.data)
+            return Query(TestComponent)
+        end,
+        Run = function(query)
+            query:get()
+        end,
+        Stop = function()
+            table.clear(Pools.Query.data)
+        end
+    },
+    {
+        Name = "Stress Query Get - Force update",
+        Calls = 1000000,
+        Pre = function()
+            table.clear(Pools.Query.data)
+            return Query(TestComponent)
+        end,
+        Run = function(query)
+            query:get(true)
+        end,
+        Stop = function()
+            table.clear(Pools.Query.data)
+        end
+    }
 }

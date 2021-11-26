@@ -32,4 +32,14 @@ return {
             System(function() end)
         end,
     },
+    {
+        Name = "Stress System Call",
+        Calls = 1000000,
+        Pre = function()
+            return System(function() end)
+        end,
+        Run = function(system)
+            system:call()
+        end,
+    }
 }
