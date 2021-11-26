@@ -5,6 +5,9 @@
 River is a fast and simple ECS made specifically with data in mind.
 Make your games faster and easier to manage. It has a simple syntax and lets you use Luau type system. River gets your data right when you want it.
 
+
+Read more here: https://HawDevelopment.github.io/River/
+
 ---
 
 Heres some examples!
