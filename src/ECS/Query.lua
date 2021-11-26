@@ -22,7 +22,14 @@ local GLOBAL_ID = 1
 local CLASS_META_TABLE = { __index = Query }
 local COLLECT_IN_INIT = true
 
-function Query:collect()
+function Query:get(update: boolean)
+    if update then
+        self.resources = self:__update()
+    end
+    return self.resources
+end
+
+function Query:__collect()
     if self.ref.ClassName then
         -- A single resource.
         self.collected = self.ref
@@ -69,8 +76,13 @@ return function (toquery: Types.Queryable | { [string | number]: Types.Queryable
     Pools.Query.data[query.id] = query
     
     if COLLECT_IN_INIT then
-        query:collect()
+        query:__collect()
     end
+    task.defer(function ()
+        if Pools.Query.data[query.id] then
+            query:__update()
+        end
+    end)
     
     return query
 end

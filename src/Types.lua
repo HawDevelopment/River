@@ -15,7 +15,7 @@ export type Query = {
     ClassName: string,
     resources: { [any]: any },
     
-    collect: (self: Query) -> nil,
+    __collect: (self: Query) -> nil,
     __update: (self: Query) -> { [any]: any },
 }
 export type Entity = number
