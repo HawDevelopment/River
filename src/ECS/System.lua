@@ -10,16 +10,26 @@
     18/11/2021
 --]]
 
-local Types = require(script.Parent.Parent.Types)
+local Package = script.Parent.Parent
+
+local Types = require(Package.Types)
+local Scheduler = require(Package.Internal.Scheduler)
 
 local System = {}
 
 local GLOBAL_ID = 1
 local CLASS_META_TABLE = { __index = System }
 
-function System:add(query: Types.Queryable): nil
+function System:add(query: Types.Query): nil
     table.insert(self.queries, query)
     return nil
+end
+
+function System:call(): nil
+    Scheduler:Handle({
+        name = "Call",
+        object = self,
+    } :: Scheduler.CallOperation)
 end
 
 return function (func: (...Types.Query) -> nil): Types.System
