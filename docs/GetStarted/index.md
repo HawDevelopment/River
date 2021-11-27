@@ -8,12 +8,12 @@ There are multiple ways of installing. Pick the one that suits you best!
 
 **Roblox Studio**:
 
--   Get the Module's rbx file from the [Library](https://www.youtube.com/watch?v=dQw4w9WgXcQ) or [GitHub Releases](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+-   Get the Module's rbx file from the [GitHub Releases](https://github.com/HawDevelopment/River/releases).
 -   Place the Module within ReplicatedStorage.
 
 **Rojo workflow**:
 
--   Download River zip folder from the latest [GitHub Releases](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+-   Download River zip folder from the latest [GitHub Releases](https://github.com/HawDevelopment/River/releases).
 -   Extract the Folder from the zipped file.
 -   Point the Folder to Replicated Storage.
 
