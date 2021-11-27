@@ -1,0 +1,66 @@
+# Taken from: https://github.com/HawDevelopment/Ro-Express/blob/master/.github/workflows/release.yml
+name: Release
+
+on: workflow_dispatch
+
+jobs:
+    build:
+        name: Create Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+            - name: Install foreman
+              uses: Roblox/setup-foreman@v1
+              with:
+                  version: "^1.0.0"
+                  token: ${{ SECRETS.GITHUB_TOKEN }}
+            - name: Build repository
+              run: |
+                  mkdir -p River
+                  cp -R src/* River
+                  zip -r river.zip River/**
+            - name: Build place file
+              run: |
+                  rojo build default.project.json -o river.rbxm
+            - name: Get version
+              id: get_version
+              uses: juliangruber/read-file-action@v1
+              with:
+                  path: ./VERSION
+            - name: Get Body
+              id: get_body
+              uses: juliangruber/read-file-action@v1
+              with:
+                  path: ./log.md
+            - name: Release
+              id: release
+              uses: actions/create-release@latest
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  release_name: Release ${{ steps.get_version.outputs.content }}
+                  tag_name: ${{ steps.get_version.outputs.content }}
+                  body: ${{ steps.get_body.outputs.content}}
+
+            - name: Upload Model File
+              id: upload-model-file
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.release.outputs.upload_url }}
+                  asset_path: ./river.rbxm
+                  asset_name: river.rbxm
+                  asset_content_type: application/rbxm
+
+            - name: Upload Zip File
+              id: upload-zip-file
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.release.outputs.upload_url }}
+                  asset_path: ./river.zip
+                  asset_name: river.zip
+                  asset_content_type: application/zip

@@ -1,6 +1,6 @@
 [package]
 name = "hawdevelopment/river"
-version = "0.0.1"
+version = "1.0.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
