@@ -45,6 +45,7 @@ function World:__update(dt)
         Scheduler:Handle({
             name = "Call",
             object = value,
+            dt = dt,
         })
     end
 end
