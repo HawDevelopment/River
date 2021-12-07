@@ -7,8 +7,8 @@ theme:
     name: material
     features:
         - navigation.tabs
-    logo: assets/FavIcon.svg
-    favicon: assets/FavIcon.svg
+    logo: assets/Duck-2.png
+    favicon: assets/FavIcon.png
     palette:
         - media: "(prefers-color-scheme: dark)"
           scheme: slate
