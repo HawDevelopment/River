@@ -90,6 +90,7 @@ MySystem:add(MyQuery)
 
 Theres two ways of calling a system either with the `:call` method, or the World object.
 Lets start with the `:call` method.
+Note that `:call` will return anything the system function returns.
 
 ```lua
 -- MySystem is defined above

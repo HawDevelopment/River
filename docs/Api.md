@@ -180,9 +180,9 @@ MySystem:add(MyQuery)
 
 ### Call
 
-`System:call()`
+`System:call() -> ...`
 
-Calls the system.
+Calls the system. Any returns in the system function will be returned.
 
 !!! danger
 

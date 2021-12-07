@@ -21,25 +21,25 @@ local GLOBAL_ID = 1
 local CLASS_META_TABLE = { __index = System }
 
 function System:add(query: Types.Query): nil
-    table.insert(self.queries, query)
-    return nil
+	table.insert(self.queries, query)
+	return nil
 end
 
-function System:call(): nil
-    Scheduler:Handle({
-        name = "Call",
-        object = self,
-    } :: Scheduler.CallOperation)
+function System:call(): ...any
+	return Scheduler:Handle({
+		name = "Call",
+		object = self,
+	} :: Scheduler.CallOperation)
 end
 
-return function (func: (...Types.Query) -> nil): Types.System
-    local system = setmetatable({
-        id = GLOBAL_ID,
-        func = func,
-        queries = {},
-        ClassName = "System"
-    }, CLASS_META_TABLE) :: Types.System
-    GLOBAL_ID += 1
-    
-    return system
+return function(func: (...Types.Query) -> nil): Types.System
+	local system = setmetatable({
+		id = GLOBAL_ID,
+		func = func,
+		queries = {},
+		ClassName = "System",
+	}, CLASS_META_TABLE) :: Types.System
+	GLOBAL_ID += 1
+
+	return system
 end
