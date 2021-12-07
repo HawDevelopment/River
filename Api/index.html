@@ -11,7 +11,7 @@
       
         <link rel="canonical" href="https://HawDevelopment.github.io/River/Api/">
       
-      <link rel="icon" href="../assets/FavIcon.svg">
+      <link rel="icon" href="../assets/FavIcon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.3">
     
     
@@ -82,7 +82,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="River" class="md-header__button md-logo" aria-label="River" data-md-component="logo">
       
-  <img src="../assets/FavIcon.svg" alt="logo">
+  <img src="../assets/Duck-2.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -256,7 +256,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="River" class="md-nav__button md-logo" aria-label="River" data-md-component="logo">
       
-  <img src="../assets/FavIcon.svg" alt="logo">
+  <img src="../assets/Duck-2.png" alt="logo">
 
     </a>
     River
@@ -626,6 +626,40 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#collectible" class="md-nav__link">
+    Collectible
+  </a>
+  
+    <nav class="md-nav" aria-label="Collectible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_7" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove" class="md-nav__link">
+    Remove
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pools" class="md-nav__link">
     Pools
   </a>
@@ -876,6 +910,40 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#collectible" class="md-nav__link">
+    Collectible
+  </a>
+  
+    <nav class="md-nav" aria-label="Collectible">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor_7" class="md-nav__link">
+    Constructor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove" class="md-nav__link">
+    Remove
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pools" class="md-nav__link">
     Pools
   </a>
@@ -917,6 +985,7 @@ Contains:</p>
 <li>Tag</li>
 <li>Type</li>
 <li>World</li>
+<li>Collectible</li>
 <li>Pools</li>
 <li>Internal:<ul>
 <li>Scheduler</li>
@@ -1044,8 +1113,8 @@ or <a href="./#tag">Tags</a> and returns the id of the entity.</p>
 <span class="n">MySystem</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">MyQuery</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="call_1">Call</h3>
-<p><code>System:call()</code></p>
-<p>Calls the system.</p>
+<p><code>System:call() -&gt; ...</code></p>
+<p>Calls the system. Any returns in the system function will be returned.</p>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>The function is ran synchronously, and does NOT have any error handling.
@@ -1171,6 +1240,46 @@ The updater will call all systems bound to <code>update</code> on every render s
 
 <span class="n">MyWorld</span><span class="p">:</span><span class="n">stop</span><span class="p">()</span>
 </code></pre></div>
+<h2 id="collectible">Collectible</h2>
+<p>Collectible is a way to interface with Roblox CollectionService. It creates a tag to easily use in <a href="./#world">Worlds</a> or <a href="./#system">Systems</a>.</p>
+<h3 id="constructor_7">Constructor</h3>
+<p><code>River::Collectible(tag: string, data: { [any]: any }?) -&gt; Tag, Collectible</code></p>
+<p>Takes a tag and creates a river tag object that can be <a href="./#query">queried</a> for. If the data paramater is giver, then any entities created will have that table copied with it. Also, returns a Collectible object.</p>
+<p>The tag returns a list of entities, the entity looks like this:</p>
+<ul>
+<li>Data: The data that was given to the constructor. Note that its deep copied.</li>
+<li>Instance: The roblox instance that have the given tag.</li>
+<li>(It also has the tag from the constructor, so it can be queried for)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Collectible</span> <span class="o">=</span> <span class="n">River</span><span class="p">.</span><span class="n">Collectible</span>
+<span class="kd">local</span> <span class="n">Query</span> <span class="o">=</span> <span class="n">River</span><span class="p">.</span><span class="n">Query</span>
+
+<span class="kd">local</span> <span class="n">tag</span><span class="p">,</span> <span class="n">collectible</span> <span class="o">=</span> <span class="n">Collectible</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">)</span>
+
+<span class="c1">-- The tag can be queried for, and used to change data</span>
+<span class="kd">local</span> <span class="n">MyQuery</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="setup">Setup</h3>
+<p><code>Collectible:setup(inst: Instance)</code></p>
+<p>Creates an entity for the instance, and tags its if it hasnt.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Collectible</span> <span class="o">=</span> <span class="n">River</span><span class="p">.</span><span class="n">Collectible</span>
+
+<span class="kd">local</span> <span class="n">tag</span><span class="p">,</span> <span class="n">collectible</span> <span class="o">=</span> <span class="n">Collectible</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">)</span>
+
+<span class="n">collectible</span><span class="p">:</span><span class="n">setup</span><span class="p">(</span><span class="n">workspace</span><span class="p">.</span><span class="n">Part</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="remove">Remove</h3>
+<p><code>Collectible:remove(inst: Instance)</code></p>
+<p>Removes the entity of the instance. Note that it doesnt untag the instance!</p>
+<div class="highlight"><pre><span></span><code><span class="kd">local</span> <span class="n">Collectible</span> <span class="o">=</span> <span class="n">River</span><span class="p">.</span><span class="n">Collectible</span>
+
+<span class="kd">local</span> <span class="n">tag</span><span class="p">,</span> <span class="n">collectible</span> <span class="o">=</span> <span class="n">Collectible</span><span class="p">(</span><span class="s2">&quot;MyTag&quot;</span><span class="p">)</span>
+
+<span class="n">collectible</span><span class="p">:</span><span class="n">setup</span><span class="p">(</span><span class="n">workspace</span><span class="p">.</span><span class="n">Part</span><span class="p">)</span>
+
+<span class="c1">-- Were dont with it now and should remove it!</span>
+<span class="n">collectible</span><span class="p">:</span><span class="n">remove</span><span class="p">(</span><span class="n">workspace</span><span class="p">.</span><span class="n">Part</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="pools">Pools</h2>
 <p>Pools is the place where River stores all its data.</p>
 <p>The pools are broken into smaller internal pools:</p>
@@ -1204,8 +1313,6 @@ However, you can use it to do stuff. (See source code)</p>
 <p class="admonition-title">Internal</p>
 <p>Scheduler is used internally, and should be used with caution.</p>
 </div>
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
                 
               
               
