@@ -10,6 +10,7 @@ Contains:
 -   Tag
 -   Type
 -   World
+-   Collectible
 -   Pools
 -   Internal:
     -   Scheduler
@@ -350,6 +351,63 @@ MyWorld:add(MySystem, "stop")
 MyWorld:stop()
 ```
 
+## Collectible
+
+Collectible is a way to interface with Roblox CollectionService. It creates a tag to easily use in [Worlds](./#world) or [Systems](./#system).
+
+### Constructor
+
+`River::Collectible(tag: string, data: { [any]: any }?) -> Tag, Collectible`
+
+Takes a tag and creates a river tag object that can be [queried](./#query) for. If the data paramater is giver, then any entities created will have that table copied with it. Also, returns a Collectible object.
+
+The tag returns a list of entities, the entity looks like this:
+
+-   Data: The data that was given to the constructor. Note that its deep copied.
+-   Instance: The roblox instance that have the given tag.
+-   (It also has the tag from the constructor, so it can be queried for)
+
+```lua
+local Collectible = River.Collectible
+local Query = River.Query
+
+local tag, collectible = Collectible("MyTag")
+
+-- The tag can be queried for, and used to change data
+local MyQuery = Query(tag)
+```
+
+### Setup
+
+`Collectible:setup(inst: Instance)`
+
+Creates an entity for the instance, and tags its if it hasnt.
+
+```lua
+local Collectible = River.Collectible
+
+local tag, collectible = Collectible("MyTag")
+
+collectible:setup(workspace.Part)
+```
+
+### Remove
+
+`Collectible:remove(inst: Instance)`
+
+Removes the entity of the instance. Note that it doesnt untag the instance!
+
+```lua
+local Collectible = River.Collectible
+
+local tag, collectible = Collectible("MyTag")
+
+collectible:setup(workspace.Part)
+
+-- Were dont with it now and should remove it!
+collectible:remove(workspace.Part)
+```
+
 ## Pools
 
 Pools is the place where River stores all its data.
@@ -389,7 +447,3 @@ However, you can use it to do stuff. (See source code)
 !!! danger "Internal"
 
     Scheduler is used internally, and should be used with caution.
-
-```
-
-```
